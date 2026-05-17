@@ -1,6 +1,15 @@
 # 🔐 SteganoGray - Advanced Cross-Media Steganography Tool
 
-SteganoGray is a state-of-the-art web application designed to securely hide and extract encrypted secret messages within various digital media formats, including **Images, Audio, and Video files**. Built with absolute privacy in mind, all operations are executed completely on the client side, ensuring that sensitive data never leaves the user's browser.
+[![Open Source Love](https://badges.frapsoft.org/os/v1/open-source.svg?v=103)](https://github.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+SteganoGray is an open-source, state-of-the-art web application designed to securely hide and extract encrypted secret messages within various digital media formats, including **Images, Audio, and Video files**. Built with absolute privacy in mind, all operations are executed completely on the client side, ensuring that sensitive data never leaves the user's browser.
+
+---
+
+## 🔓 100% Open Source (Do Anything You Want!)
+
+This project is built under a completely open-source philosophy. **Anyone with the link can download, use, edit, modify, hack, or completely repurpose this code for personal or commercial projects.** No restrictions. If you like it, fork it and make it yours!
 
 ---
 
