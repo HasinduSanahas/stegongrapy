@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced steganography tool for hiding encrypted messages in images, audio, and video files">
+    <title>SteganoGray - Advanced Steganography Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <span class="logo-icon">🔐</span>
+            </div>
+            <h1>SteganoGray</h1>
+            <p class="subtitle">Hide & Extract Encrypted Messages in Media Files</p>
+        </header>
+
+        <!-- Mode Switcher -->
+        <div class="mode-switcher">
+            <button class="mode-btn active" data-mode="encode" id="encodeMode">
+                🔒 Encode Message
+            </button>
+            <button class="mode-btn" data-mode="decode" id="decodeMode">
+                🔓 Decode Message
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="image">
+                <span class="tab-icon">🖼️</span>
+                <span>Image</span>
+            </button>
+            <button class="tab-btn" data-tab="audio">
+                <span class="tab-icon">🎵</span>
+                <span>Audio</span>
+            </button>
+            <button class="tab-btn" data-tab="video">
+                <span class="tab-icon">🎬</span>
+                <span>Video</span>
+            </button>
+        </div>
+
+        <!-- Image Tab -->
+        <div class="tab-content active" id="imageTab">
+            <div class="grid">
+                <!-- Input Section -->
+                <div class="card">
+                    <div class="section">
+                        <h2 class="section-title">
+                            <span class="section-icon">📁</span>
+                            Upload Image
+                        </h2>
+                        <div class="file-upload" id="imageUpload">
+                            <input type="file" id="imageFile" accept="image/png,image/jpeg,image/jpg">
+                            <span class="upload-icon">📤</span>
+                            <div class="upload-text">Click or drag image here</div>
+                            <div class="upload-hint">Supports PNG, JPG (Max 10MB)</div>
+                            <div class="file-name hidden" id="imageFileName"></div>
+                        </div>
+                        <div class="preview hidden" id="imagePreview">
+                            <img id="imagePreviewImg" alt="Preview">
+                        </div>
+                    </div>
+
+                    <!-- Encode Section -->
+                    <div class="section encode-section">
+                        <h2 class="section-title">
+                            <span class="section-icon">✍️</span>
+                            Message to Hide
+                        </h2>
+                        <div class="form-group">
+                            <label for="imageMessage">Your Secret Message</label>
+                            <textarea id="imageMessage" placeholder="Enter your secret message here..."></textarea>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="imageEncrypt">
+                            <label for="imageEncrypt">Encrypt with password</label>
+                        </div>
+                        <div class="form-group hidden" id="imagePasswordGroup">
+                            <label for="imagePassword">Password</label>
+                            <input type="password" id="imagePassword" placeholder="Enter encryption password">
+                        </div>
+                    </div>
+
+                    <!-- Decode Section -->
+                    <div class="section decode-section hidden">
+                        <h2 class="section-title">
+                            <span class="section-icon">🔑</span>
+                            Decryption
+                        </h2>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="imageDecrypt">
+                            <label for="imageDecrypt">Message is encrypted</label>
+                        </div>
+                        <div class="form-group hidden" id="imageDecryptPasswordGroup">
+                            <label for="imageDecryptPassword">Password</label>
+                            <input type="password" id="imageDecryptPassword" placeholder="Enter decryption password">
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary encode-btn" id="imageEncodeBtn">
+                            <span class="btn-icon">🔒</span>
+                            <span>Encode Image</span>
+                        </button>
+                        <button class="btn btn-primary decode-btn hidden" id="imageDecodeBtn">
+                            <span class="btn-icon">🔓</span>
+                            <span>Decode Image</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div class="card">
+                    <div class="section">
+                        <h2 class="section-title">
+                            <span class="section-icon">📊</span>
+                            Result
+                        </h2>
+                        <div class="output" id="imageOutput">Results will appear here...</div>
+                        <div class="preview hidden" id="imageResultPreview">
+                            <img id="imageResultImg" alt="Result">
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary hidden" id="imageDownloadBtn">
+                                <span class="btn-icon">💾</span>
+                                <span>Download Image</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Tab -->
+        <div class="tab-content" id="audioTab">
+            <div class="grid">
+                <!-- Input Section -->
+                <div class="card">
+                    <div class="section">
+                        <h2 class="section-title">
+                            <span class="section-icon">📁</span>
+                            Upload Audio
+                        </h2>
+                        <div class="file-upload" id="audioUpload">
+                            <input type="file" id="audioFile" accept="audio/wav,audio/wave">
+                            <span class="upload-icon">📤</span>
+                            <div class="upload-text">Click or drag audio here</div>
+                            <div class="upload-hint">Supports WAV (Max 20MB)</div>
+                            <div class="file-name hidden" id="audioFileName"></div>
+                        </div>
+                        <div class="preview hidden" id="audioPreview">
+                            <audio id="audioPreviewPlayer" controls></audio>
+                        </div>
+                    </div>
+
+                    <!-- Encode Section -->
+                    <div class="section encode-section">
+                        <h2 class="section-title">
+                            <span class="section-icon">✍️</span>
+                            Message to Hide
+                        </h2>
+                        <div class="form-group">
+                            <label for="audioMessage">Your Secret Message</label>
+                            <textarea id="audioMessage" placeholder="Enter your secret message here..."></textarea>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="audioEncrypt">
+                            <label for="audioEncrypt">Encrypt with password</label>
+                        </div>
+                        <div class="form-group hidden" id="audioPasswordGroup">
+                            <label for="audioPassword">Password</label>
+                            <input type="password" id="audioPassword" placeholder="Enter encryption password">
+                        </div>
+                    </div>
+
+                    <!-- Decode Section -->
+                    <div class="section decode-section hidden">
+                        <h2 class="section-title">
+                            <span class="section-icon">🔑</span>
+                            Decryption
+                        </h2>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="audioDecrypt">
+                            <label for="audioDecrypt">Message is encrypted</label>
+                        </div>
+                        <div class="form-group hidden" id="audioDecryptPasswordGroup">
+                            <label for="audioDecryptPassword">Password</label>
+                            <input type="password" id="audioDecryptPassword" placeholder="Enter decryption password">
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary encode-btn" id="audioEncodeBtn">
+                            <span class="btn-icon">🔒</span>
+                            <span>Encode Audio</span>
+                        </button>
+                        <button class="btn btn-primary decode-btn hidden" id="audioDecodeBtn">
+                            <span class="btn-icon">🔓</span>
+                            <span>Decode Audio</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div class="card">
+                    <div class="section">
+                        <h2 class="section-title">
+                            <span class="section-icon">📊</span>
+                            Result
+                        </h2>
+                        <div class="output" id="audioOutput">Results will appear here...</div>
+                        <div class="preview hidden" id="audioResultPreview">
+                            <audio id="audioResultPlayer" controls></audio>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary hidden" id="audioDownloadBtn">
+                                <span class="btn-icon">💾</span>
+                                <span>Download Audio</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Tab -->
+        <div class="tab-content" id="videoTab">
+            <div class="grid">
+                <!-- Input Section -->
+                <div class="card">
+                    <div class="section">
+                        <h2 class="section-title">
+                            <span class="section-icon">📁</span>
+                            Upload Video
+                        </h2>
+                        <div class="file-upload" id="videoUpload">
+                            <input type="file" id="videoFile" accept="video/mp4,video/webm">
+                            <span class="upload-icon">📤</span>
+                            <div class="upload-text">Click or drag video here</div>
+                            <div class="upload-hint">Supports MP4, WebM (Max 50MB)</div>
+                            <div class="file-name hidden" id="videoFileName"></div>
+                        </div>
+                        <div class="preview hidden" id="videoPreview">
+                            <video id="videoPreviewPlayer" controls></video>
+                        </div>
+                    </div>
+
+                    <!-- Encode Section -->
+                    <div class="section encode-section">
+                        <h2 class="section-title">
+                            <span class="section-icon">✍️</span>
+                            Message to Hide
+                        </h2>
+                        <div class="form-group">
+                            <label for="videoMessage">Your Secret Message</label>
+                            <textarea id="videoMessage" placeholder="Enter your secret message here..."></textarea>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="videoEncrypt">
+                            <label for="videoEncrypt">Encrypt with password</label>
+                        </div>
+                        <div class="form-group hidden" id="videoPasswordGroup">
+                            <label for="videoPassword">Password</label>
+                            <input type="password" id="videoPassword" placeholder="Enter encryption password">
+                        </div>
+                    </div>
+
+                    <!-- Decode Section -->
+                    <div class="section decode-section hidden">
+                        <h2 class="section-title">
+                            <span class="section-icon">🔑</span>
+                            Decryption
+                        </h2>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="videoDecrypt">
+                            <label for="videoDecrypt">Message is encrypted</label>
+                        </div>
+                        <div class="form-group hidden" id="videoDecryptPasswordGroup">
+                            <label for="videoDecryptPassword">Password</label>
+                            <input type="password" id="videoDecryptPassword" placeholder="Enter decryption password">
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary encode-btn" id="videoEncodeBtn">
+                            <span class="btn-icon">🔒</span>
+                            <span>Encode Video</span>
+                        </button>
+                        <button class="btn btn-primary decode-btn hidden" id="videoDecodeBtn">
+                            <span class="btn-icon">🔓</span>
+                            <span>Decode Video</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div class="card">
+                    <div class="section">
+                        <h2 class="section-title">
+                            <span class="section-icon">📊</span>
+                            Result
+                        </h2>
+                        <div class="output" id="videoOutput">Results will appear here...</div>
+                        <div class="preview hidden" id="videoResultPreview">
+                            <video id="videoResultPlayer" controls></video>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary hidden" id="videoDownloadBtn">
+                                <span class="btn-icon">💾</span>
+                                <span>Download Video</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>SteganoGray - Advanced Steganography Tool | Built with ❤️ for Privacy</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                All processing happens locally in your browser. Your data never leaves your device.
+            </p>
+        </footer>
+    </div>
+
+    <!-- CryptoJS Library for Encryption -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
